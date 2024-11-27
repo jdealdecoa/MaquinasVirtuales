@@ -34,7 +34,7 @@ app.listen(app.get("port"), () => {
     const ip = ipHelper.address();
     const port = app.get("port"); 
 
-    const url = "https://" + ip + ":" + port + "/";
+    const url = "http://" + ip + ":" + port + "/";
 
     console.log("servidor arrancado en la url: " + url); 
 
