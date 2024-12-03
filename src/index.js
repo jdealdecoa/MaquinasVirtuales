@@ -23,11 +23,12 @@ app.use(express.json()); //si no le decimos a express que puede usar json, no po
 const ipHelper = require("ip");
 const qrcode = require("qrcode-terminal"); //crea codigo qr con la web q acabamos de hacer
 
-app.get("/", (req, res) => {  //toda la url
+//Declaramos la carpeta pública
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
 
-    res.send("Hello World"); 
-
-});
+//Cargamos nuestro enrutador de URLS
+app.use(require("./routes/_routes"));
 
 app.listen(app.get("port"), () => {
 
