@@ -30,6 +30,8 @@ app.use(express.static(path.join(__dirname, "public")));
 //Cargamos nuestro enrutador de URLS
 app.use(require("./routes/_routes"));
 
+
+
 app.listen(app.get("port"), () => {
 
     const ip = ipHelper.address();

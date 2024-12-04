@@ -10,5 +10,8 @@ router.get("/", (req, res) => {  //toda la url
 
 router.use("/user", require("./login"));
 
+//Cargamos nuestro codigo de prueba de bases de datos
+router.use("/bdd", require("./bddCalls"));
+
 
 module.exports = router; 

@@ -11,7 +11,15 @@ router.get("/login", (req, res) => {  //toda la url
 
 router.get("/register", (req, res) => {  //toda la url
 
-    res.send("Tittle: ola esto es register xd"); 
+    res.send( "Tu usuario es: " + req.query.username + " y tu password es: " + req.query.password);
+
+
+});
+
+router.post("/register", (req, res) => {  //toda la url
+
+    res.send( "Tu usuario es: " + req.query.username + " y tu password es: " + req.query.password);
+
 
 });
 
