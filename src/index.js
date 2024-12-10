@@ -3,7 +3,7 @@
 const express = require("express");
 
 //Llamo al constructor
-const app = express();
+app = express();
 
 //seccion de variables de configuracion 
 app.set("port", process.PORT || 3000); //a la variable port, voy a que coja el puerto del proceso actual, si tenemos un servidor hecho pillará el puerto, pero si estamos en local, cogerá el 3000. 

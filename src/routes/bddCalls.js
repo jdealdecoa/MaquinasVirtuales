@@ -4,7 +4,7 @@ const router = Router();
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({
-    user: "root",
+    user: "user",
     password: "user",
     database: "chatbdd"
 });
@@ -14,13 +14,15 @@ connection.connect((err) =>{
 
     console.log("Bdd Connected");
 
-    connection.query("select * from users", (err, result, fields) => {
+    app.set("bdd", connection);
+
+    /*connection.query("select * from users", (err, result, fields) => {
         if(err){
             console.log(err);
         }else {
             console.log(result);
         }
-    })
+    })*/
 
 });
 
