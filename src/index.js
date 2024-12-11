@@ -27,12 +27,21 @@ const qrcode = require("qrcode-terminal"); //crea codigo qr con la web q acabamo
 const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
+
+
+// en vez de utilizar la app de express, que al hacer un listen nos abre un servidor que escucha llamadas http, vamos a 
+// levantar un servidor que ademas tambien escucha conexiones de webSockets
+const http = require("http");
+const server = http.createServer(app);
+
+const {Server} = require("socket.io");
+const io = new Server(server); 
+app.set("io", io); 
+
 //Cargamos nuestro enrutador de URLS
 app.use(require("./routes/_routes"));
 
-
-
-app.listen(app.get("port"), () => {
+server.listen(app.get("port"), () => {
 
     const ip = ipHelper.address();
     const port = app.get("port"); 

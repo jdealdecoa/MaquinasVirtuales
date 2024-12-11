@@ -13,5 +13,6 @@ router.use("/user", require("./login"));
 //Cargamos nuestro codigo de prueba de bases de datos
 router.use("/bdd", require("./bddCalls"));
 
+router.use("/chat", require ("./chat"));
 
 module.exports = router; 

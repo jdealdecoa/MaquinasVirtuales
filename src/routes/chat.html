@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+        <div id="MessagesContainer">
+
+        </div>
+        <input id="MessageBox" /><button id="SendButton">Send</button> 
+    </body>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        var socket = io();
+
+        var messagesContainer = document.getElementById("MessagesContainer");
+        var messageBox = document.getElementById("MessageBox");
+        var sendButton = document.getElementById("SendButton");
+
+        sendButton.onclick = () => {
+
+            if(messageBox.value != ""){
+                socket.emit("ChatMessageClientToServer", messageBox.value);
+                messageBox.value = "";
+            }
+        };
+
+        function OnMessage(message) {
+            var messageDiv = document.createElement("div");
+            messageDiv.innerText = message;
+
+            messagesContainer.appendChild(messageDiv);
+        }
+
+        socket.on("ChatMessageServerToClient", (message) => {
+            OnMessage(message);
+        });
+
+        socket.on("InitialMessages", (messages) => {
+            for(message of messages){
+                OnMessage(message);
+            }
+        });
+
+        socket.emit("GetInitialMessages");
+    </script>
+</html>
