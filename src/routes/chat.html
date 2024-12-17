@@ -2,11 +2,28 @@
 <html>
     <head>
         <style>
-
+            table, th, td{
+                border: 1px solid black;
+            }
+            td{
+                color: blueviolet;
+                text-align: center;
+            }
         </style>
     </head>
 
     <body>
+        <div id ="RoomSelector">
+            <table id="RoomsTable" style="width:100%">
+                <tr>
+                    <th>Room Name</th>
+                    <th>User</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+            <div id ="ChatView" hidden="false">
+        
         <div id="MessagesContainer">
 
         </div>
@@ -17,7 +34,66 @@
     <script>
 
         var socket = io();
+        
+        //SetUP
+        var roomSelector = document.getElementById("RoomSelector");
+        var chatView= document.getElementById("ChatView");
 
+        roomSelector.hidden = false;
+        chatView.hidden = true;
+
+
+        //Room Selector
+        var roomsTable = document.getElementById("RoomsTable");
+
+        function OnNewRoom(room) {
+            var roomRow = document.createElement("tr");
+
+            var cellName = document.createElement("td");
+            cellName.innerText = room.name;
+
+            var cellUsers= document.createElement("td");
+            cellUsers.innerText = room.usersCount;
+            cellUsers.id = room.name + "_userCountRow";
+
+            var cellActions = document.createElement("td");
+            var joinActionButton = document.createElement("button");
+            joinActionButton.innerText ="Join to Room";
+            joinActionButton.onclick = () =>{
+                socket.emit("EnterRoomClientToServer", roomName);
+            };
+
+            cellActions.appendChild(joinActionButton);	
+
+            roomRow.appendChild(cellName);
+            roomRow.appendChild(cellUsers);
+            roomRow.appendChild(cellActions);
+
+
+            roomSelector.appendChild(roomRow);
+        }
+
+        socket.on("InitialRooms", (rooms) => {
+            for(room of rooms){
+                OnNewRoom(room);
+            }
+        });
+        socket.on("EnterRoomServerToClient", (room) => {
+            roomSelector.hidden = true;
+            chatView.hidden = false;
+        });
+
+        socket.on("RoomsUpdate", (room) => {
+            var cellUsers = document.getElementById(room.name + "_userCountRow");
+            cellUsers.innerText = room.usersCount;
+        });
+
+
+        socket.emit("GetInitialRooms");
+
+
+
+        /*
         var messagesContainer = document.getElementById("MessagesContainer");
         var messageBox = document.getElementById("MessageBox");
         var sendButton = document.getElementById("SendButton");
@@ -47,6 +123,6 @@
             }
         });
 
-        socket.emit("GetInitialMessages");
+        socket.emit("GetInitialMessages");*/
     </script>
 </html>
